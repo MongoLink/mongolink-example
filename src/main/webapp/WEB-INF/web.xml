@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.5"
+
+         xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <context-param>
+        <param-name>org.restlet.clients</param-name>
+        <param-value>HTTP</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.restlet.application</param-name>
+        <param-value>org.mongolink.example.web.application.ApiApplication</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>restlet</servlet-name>
+        <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>restlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+
+</web-app>

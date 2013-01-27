@@ -1,4 +1,4 @@
 mongolink-example
 =================
 
-Mongolink Example
+curl --data "name=afruit" http://localhost:8080/fruits
