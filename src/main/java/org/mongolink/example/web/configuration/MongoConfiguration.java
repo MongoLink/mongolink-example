@@ -21,10 +21,9 @@ public class MongoConfiguration {
         INSTANCE;
 
         private Singleton() {
-            Properties propriétésVoteer = new Properties();
-            final Settings settings = Settings.defaultInstance().withHost(propriétésVoteer.getDBHost())
-                    .withDbName(propriétésVoteer.getDBName()).withDefaultUpdateStrategy(UpdateStrategies.DIFF);
-
+            Properties properties = new Properties();
+            final Settings settings = Settings.defaultInstance().withHost(properties.getDBHost())
+                    .withDbName(properties.getDBName()).withDefaultUpdateStrategy(UpdateStrategies.DIFF);
             ContextBuilder builder = new ContextBuilder("org.mongolink.example.persistence.mapping");
             mongoSessionManager = MongoSessionManager.create(builder, settings);
         }
