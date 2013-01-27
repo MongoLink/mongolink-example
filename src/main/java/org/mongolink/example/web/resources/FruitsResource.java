@@ -1,4 +1,4 @@
-package org.mongolink.example.web.ressources;
+package org.mongolink.example.web.resources;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package org.mongolink.example.web.ressources;
+package org.mongolink.example.web.resources;
 
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;

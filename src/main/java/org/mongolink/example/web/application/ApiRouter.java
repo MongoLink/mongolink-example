@@ -1,7 +1,7 @@
 package org.mongolink.example.web.application;
 
-import org.mongolink.example.web.ressources.FruitsResource;
-import org.mongolink.example.web.ressources.HomeResource;
+import org.mongolink.example.web.resources.FruitsResource;
+import org.mongolink.example.web.resources.HomeResource;
 import org.restlet.Context;
 import org.restlet.routing.Router;
 
