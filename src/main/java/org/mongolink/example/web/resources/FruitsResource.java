@@ -19,7 +19,7 @@ public class FruitsResource extends ServerResource {
     public Representation get() {
         List<Fruit> fruits = Repositories.fruits().all();
         JSONArray array = new JSONArray();
-        for(Fruit fruit : fruits) {
+        for (Fruit fruit : fruits) {
             array.put(new JSONObject(fruit));
         }
         return new JsonRepresentation(array);
