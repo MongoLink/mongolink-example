@@ -23,6 +23,10 @@
 
 `curl -X PUT -d "name=anotherFruit" http://localhost:8080/fruits/fruitId`
 
-## Delete
+### Delete
 
 `curl -X DELETE http://localhost:8080/fruits/fruitId`
+
+## Online example
+
+http://mongolink-example.mongolink.cloudbees.net/

@@ -16,9 +16,23 @@
     <properties>
         <restlet.version>2.1.1</restlet.version>
         <db.host>localhost</db.host>
+        <db.port>27017</db.port>
+        <db.user />
+        <db.password />
         <db.name>mongolink-example</db.name>
     </properties>
-
+    <profiles>
+        <profile>
+            <id>itg</id>
+            <properties>
+                <db.host>linus.mongohq.com</db.host>
+                <db.port>10077</db.port>
+                <db.user>ic</db.user>
+                <db.password>ic</db.password>
+                <db.name>mongolink-example</db.name>
+            </properties>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>org.mongolink</groupId>
@@ -80,6 +94,12 @@
                 <artifactId>jetty-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
     <licenses>
         <license>
