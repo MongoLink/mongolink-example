@@ -21,10 +21,16 @@
 
 package org.mongolink.example.web.resources;
 
+import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mongolink.example.domain.Banana;
+import org.mongolink.example.domain.Repositories;
 import org.mongolink.example.test.ClientResource;
 import org.mongolink.example.test.WithWebApplication;
+import org.mongolink.example.test.WithRepository;
+import org.restlet.data.Form;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
@@ -33,19 +39,39 @@ import java.io.IOException;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class HomeResourceTest {
+public class FruitsResourceTest extends WithRepository {
+
+    @Rule
+    public WithRepository withRepository = new WithRepository();
 
     @Rule
     public WithWebApplication webTester = new WithWebApplication();
 
+    @Before
+    public void before() {
+        resource = webTester.newClientResource("/fruits");
+    }
+
     @Test
-    public void canRepresent() throws IOException {
-        ClientResource resource = webTester.newClientResource("/");
+    public void canGetAll() throws IOException {
+        Banana banana = new Banana("a banana");
+        Repositories.fruits().add(banana);
 
         Representation representation = resource.get();
 
         assertThat(resource.getStatus()).isEqualTo(Status.SUCCESS_OK);
         assertThat(representation.getMediaType()).isEqualTo(MediaType.APPLICATION_JSON);
-        assertThat(representation.getText()).isEqualTo("{ \"message\": \"hello!\" }");
+        assertThat(representation.getText()).contains(new JSONObject(banana).toString());
     }
+
+    @Test
+    public void canCreate() {
+        resource.post(new Form("name=a fruit"));
+
+        assertThat(resource.getStatus()).isEqualTo(Status.SUCCESS_CREATED);
+        assertThat(Repositories.fruits().all()).hasSize(1);
+        assertThat(Repositories.fruits().all().get(0).getName()).isEqualTo("a fruit");
+    }
+
+    ClientResource resource;
 }

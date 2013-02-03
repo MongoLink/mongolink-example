@@ -1,4 +1,28 @@
-mongolink-example
-=================
+# mongolink-example
 
-`curl --data "name=afruit" http://localhost:8080/fruits`
+
+## Launch the example
+
+`mvn jetty:run`
+
+## Usage
+
+### Get all
+
+`curl http://localhost:8080/fruits`
+
+### Add
+
+`curl -d "name=aFruit" http://localhost:8080/fruits`
+
+### Get
+
+`curl http://localhost:8080/fruits/fruitId`
+
+### Modify
+
+`curl -X PUT -d "name=anotherFruit" http://localhost:8080/fruits/fruitId`
+
+## Delete
+
+`curl -X DELETE http://localhost:8080/fruits/fruitId`

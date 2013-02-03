@@ -21,10 +21,16 @@
 
 package org.mongolink.example.web.resources;
 
+import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mongolink.example.domain.Banana;
+import org.mongolink.example.domain.Repositories;
 import org.mongolink.example.test.ClientResource;
+import org.mongolink.example.test.WithRepository;
 import org.mongolink.example.test.WithWebApplication;
+import org.restlet.data.Form;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
@@ -33,19 +39,47 @@ import java.io.IOException;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class HomeResourceTest {
+public class FruitResourceTest extends WithRepository {
+
+    @Rule
+    public WithRepository withRepository = new WithRepository();
 
     @Rule
     public WithWebApplication webTester = new WithWebApplication();
 
-    @Test
-    public void canRepresent() throws IOException {
-        ClientResource resource = webTester.newClientResource("/");
+    @Before
+    public void before() {
+        banana = new Banana("a banana");
+        Repositories.fruits().add(banana);
+        resource = webTester.newClientResource("/fruits/" + banana.getId());
+    }
 
+    @Test
+    public void canGet() throws IOException {
         Representation representation = resource.get();
 
         assertThat(resource.getStatus()).isEqualTo(Status.SUCCESS_OK);
         assertThat(representation.getMediaType()).isEqualTo(MediaType.APPLICATION_JSON);
-        assertThat(representation.getText()).isEqualTo("{ \"message\": \"hello!\" }");
+        assertThat(representation.getText()).contains(new JSONObject(banana).toString());
     }
+
+    @Test
+    public void canModify() {
+        resource.put(new Form("name=a fruit"));
+
+        assertThat(resource.getStatus()).isEqualTo(Status.SUCCESS_OK);
+        assertThat(Repositories.fruits().all()).hasSize(1);
+        assertThat(Repositories.fruits().all().get(0).getName()).isEqualTo("a fruit");
+    }
+
+    @Test
+    public void canDelete() {
+        resource.delete();
+
+        assertThat(resource.getStatus()).isEqualTo(Status.SUCCESS_OK);
+        assertThat(Repositories.fruits().all()).isEmpty();
+    }
+
+    ClientResource resource;
+    Banana banana;
 }

@@ -22,6 +22,7 @@
 package org.mongolink.example.web.application;
 
 import org.mongolink.example.web.configuration.MongoConfiguration;
+import org.mongolink.example.web.resources.FruitResource;
 import org.mongolink.example.web.resources.FruitsResource;
 import org.mongolink.example.web.resources.HomeResource;
 import org.restlet.Application;
@@ -44,7 +45,7 @@ public class ApiApplication extends Application {
         MongoConfiguration.stop();
     }
 
-    private class ApiRouter extends Router {
+    protected class ApiRouter extends Router {
         public ApiRouter(Context context) {
             super(context);
             attach();
@@ -53,6 +54,7 @@ public class ApiApplication extends Application {
         private void attach() {
             attach("/", HomeResource.class);
             attach("/fruits", FruitsResource.class);
+            attach("/fruits/{id}", FruitResource.class);
         }
     }
 }

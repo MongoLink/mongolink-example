@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.mongolink.example.domain.Fruit;
 import org.mongolink.example.domain.Repositories;
 import org.restlet.data.Form;
+import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
@@ -28,5 +29,6 @@ public class FruitsResource extends ServerResource {
     @Post
     public void post(Form form) {
         Repositories.fruits().add(new Fruit(form.getFirstValue("name")));
+        setStatus(Status.SUCCESS_CREATED);
     }
 }

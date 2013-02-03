@@ -19,19 +19,20 @@
  *
  */
 
-package org.mongolink.example.persistence;
+package org.mongolink.example.test;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.rules.ExternalResource;
 import org.mongolink.MongoSession;
 import org.mongolink.MongoSessionManager;
 import org.mongolink.Settings;
 import org.mongolink.domain.mapper.ContextBuilder;
 import org.mongolink.example.domain.Repositories;
+import org.mongolink.example.persistence.MongoRepositories;
 
-public abstract class RepositoryTest {
-    @Before
-    public void beforeTest() {
+public class WithRepository extends ExternalResource {
+
+    @Override
+    protected void before() throws Throwable {
         ContextBuilder contextBuilder = new ContextBuilder("org.mongolink.example.persistence.mapping");
         MongoSessionManager mongoSessionManager = MongoSessionManager.create(contextBuilder, Settings.defaultInstance().withDbFactory(FongoDBFactory.class));
         session = mongoSessionManager.createSession();
@@ -39,16 +40,16 @@ public abstract class RepositoryTest {
         Repositories.initialise(new MongoRepositories(session));
     }
 
-    @After
-    public void afterTest() {
+    @Override
+    protected void after() {
         session.stop();
         FongoDBFactory.clean();
     }
 
-    protected void cleanSession() {
+    public void cleanSession() {
         session.flush();
         session.clear();
     }
 
-    protected MongoSession session;
+    private MongoSession session;
 }

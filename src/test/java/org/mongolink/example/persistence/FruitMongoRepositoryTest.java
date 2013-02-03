@@ -22,30 +22,29 @@
 package org.mongolink.example.persistence;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mongolink.example.domain.Banana;
 import org.mongolink.example.domain.Fruit;
+import org.mongolink.example.domain.Repositories;
+import org.mongolink.example.test.WithRepository;
 
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class FruitMongoRepositoryTest extends RepositoryTest {
+public class FruitMongoRepositoryTest {
 
-    private FruitMongoRepository repository;
-
-    @Before
-    public void before() {
-        repository = new FruitMongoRepository(session);
-    }
+    @Rule
+    public WithRepository withRepository = new WithRepository();
 
     @Test
     public void canAdd() {
         Fruit fruit = new Fruit("a fruit");
-        repository.add(fruit);
-        cleanSession();
+        Repositories.fruits().add(fruit);
+        withRepository.cleanSession();
 
-        Fruit fruitFound = repository.get(fruit.getId());
+        Fruit fruitFound = Repositories.fruits().get(fruit.getId());
 
         assertThat(fruitFound).isNotNull();
         assertThat(fruitFound.getName()).isEqualTo("a fruit");
@@ -56,10 +55,10 @@ public class FruitMongoRepositoryTest extends RepositoryTest {
     @Test
     public void canAddBanana() {
         Banana banana = new Banana("a banana");
-        repository.add(banana);
-        cleanSession();
+        Repositories.fruits().add(banana);
+        withRepository.cleanSession();
 
-        Fruit fruitFound = repository.get(banana.getId());
+        Fruit fruitFound = Repositories.fruits().get(banana.getId());
 
         assertThat(fruitFound).isNotNull();
         assertThat(fruitFound.getName()).isEqualTo("a banana");
@@ -69,21 +68,22 @@ public class FruitMongoRepositoryTest extends RepositoryTest {
     @Test
     public void canDelete() {
         Fruit fruit = new Fruit("another fruit");
-        repository.add(fruit);
+        Repositories.fruits().add(fruit);
 
-        repository.delete(fruit);
-        cleanSession();
+        Repositories.fruits().delete(fruit);
+        withRepository.cleanSession();
 
-        assertThat(repository.get(fruit.getId())).isNull();
+        assertThat(Repositories.fruits().get(fruit.getId())).isNull();
     }
 
     @Test
     public void canGetAll() {
-        repository.add(new Fruit("a fruit"));
-        repository.add(new Fruit("another fruit"));
+        Repositories.fruits().add(new Fruit("a fruit"));
+        Repositories.fruits().add(new Fruit("another fruit"));
 
-        List<Fruit> fruits = repository.all();
+        List<Fruit> fruits = Repositories.fruits().all();
 
         assertThat(fruits).hasSize(2);
     }
+
 }

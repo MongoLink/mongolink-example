@@ -19,41 +19,32 @@
  *
  */
 
-package org.mongolink.example.domain;
+package org.mongolink.example.test;
 
-import java.util.Date;
-import java.util.UUID;
+import com.foursquare.fongo.Fongo;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import org.mongolink.DbFactory;
 
-public class Fruit {
+public class FongoDBFactory extends DbFactory {
 
-    @SuppressWarnings("UnusedDeclaration")
-    protected Fruit() {
-        // for mongolink
+
+    @Override
+    public DB get(String dbName) {
+        return fongo.getDB(dbName);
     }
 
-    public Fruit(String name) {
-        this.name = name;
-        this.id = UUID.randomUUID();
+
+    public static void clean() {
+        for (String databaseName : fongo.getDatabaseNames()) {
+            DB db = fongo.getDB(databaseName);
+            for (String collectionName : db.getCollectionNames()) {
+                db.getCollection(collectionName).remove(new BasicDBObject());
+            }
+
+        }
     }
 
-    public UUID getId() {
-        return id;
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    private UUID id;
-    private String name;
-    private Date creationDate = new Date();
-
+    private static final Fongo fongo = new Fongo("serveur de test");
 }

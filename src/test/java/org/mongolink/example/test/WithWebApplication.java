@@ -19,32 +19,38 @@
  *
  */
 
-package org.mongolink.example.persistence;
+package org.mongolink.example.test;
 
-import com.foursquare.fongo.Fongo;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import org.mongolink.DbFactory;
+import org.junit.rules.ExternalResource;
+import org.mongolink.example.web.application.ApiApplication;
+import org.restlet.Restlet;
 
-public class FongoDBFactory extends DbFactory {
-
+public class WithWebApplication extends ExternalResource {
 
     @Override
-    public DB get(String dbName) {
-        return fongo.getDB(dbName);
+    protected void before() throws Throwable {
+        application = new ApiApplication() {
+            @Override
+            public Restlet createInboundRoot() {
+                return new ApiRouter(getContext());
+            }
+        };
+        application.start();
     }
 
-
-    public static void clean() {
-        for (String databaseName : fongo.getDatabaseNames()) {
-            DB db = fongo.getDB(databaseName);
-            for (String collectionName : db.getCollectionNames()) {
-                db.getCollection(collectionName).remove(new BasicDBObject());
-            }
-
+    @Override
+    protected void after() {
+        try {
+            application.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    public ClientResource newClientResource(final String uri) {
+        return new ClientResource(uri, application);
+    }
 
-    private static final Fongo fongo = new Fongo("serveur de test");
+    private ApiApplication application;
+
 }

@@ -39,13 +39,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public void delete(T entité) {
-        session.delete(entité);
+    public void delete(T entity) {
+        session.delete(entity);
     }
 
     @Override
-    public void add(T entité) {
-        session.save(entité);
+    public void add(T entity) {
+        session.save(entity);
     }
 
     @Override
