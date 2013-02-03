@@ -42,11 +42,8 @@ public class MongoConfiguration {
         INSTANCE;
 
         private Singleton() {
-            Properties properties = new Properties();
-            final Settings settings = Settings.defaultInstance().withHost(properties.getDBHost())
-                    .withDbName(properties.getDBName()).withDefaultUpdateStrategy(UpdateStrategies.DIFF);
             ContextBuilder builder = new ContextBuilder("org.mongolink.example.persistence.mapping");
-            mongoSessionManager = MongoSessionManager.create(builder, settings);
+            mongoSessionManager = MongoSessionManager.create(builder, new Properties().addSettings(Settings.defaultInstance()));
         }
 
         private final MongoSessionManager mongoSessionManager;
