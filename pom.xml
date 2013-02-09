@@ -39,6 +39,11 @@
             <artifactId>mongolink</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.mongolink</groupId>
+            <artifactId>mongolink-testtools</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>

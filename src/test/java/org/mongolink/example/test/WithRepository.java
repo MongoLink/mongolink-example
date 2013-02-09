@@ -21,6 +21,7 @@
 
 package org.mongolink.example.test;
 
+import org.junit.Rule;
 import org.junit.rules.ExternalResource;
 import org.mongolink.MongoSession;
 import org.mongolink.MongoSessionManager;
@@ -28,28 +29,26 @@ import org.mongolink.Settings;
 import org.mongolink.domain.mapper.ContextBuilder;
 import org.mongolink.example.domain.Repositories;
 import org.mongolink.example.persistence.MongoRepositories;
+import org.mongolink.test.MongolinkRule;
 
 public class WithRepository extends ExternalResource {
 
     @Override
     protected void before() throws Throwable {
-        ContextBuilder contextBuilder = new ContextBuilder("org.mongolink.example.persistence.mapping");
-        MongoSessionManager mongoSessionManager = MongoSessionManager.create(contextBuilder, Settings.defaultInstance().withDbFactory(FongoDBFactory.class));
-        session = mongoSessionManager.createSession();
-        session.start();
-        Repositories.initialise(new MongoRepositories(session));
+        mongolinkRule = MongolinkRule.withPackage("org.mongolink.example.persistence.mapping");
+        mongolinkRule.before();
+        Repositories.initialise(new MongoRepositories(mongolinkRule.getCurrentSession()));
     }
 
     @Override
     protected void after() {
-        session.stop();
-        FongoDBFactory.clean();
+        mongolinkRule.after();
     }
 
     public void cleanSession() {
-        session.flush();
-        session.clear();
+        mongolinkRule.cleanSession();
     }
 
-    private MongoSession session;
+    private MongolinkRule mongolinkRule;
+
 }
