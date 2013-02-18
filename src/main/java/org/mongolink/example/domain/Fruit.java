@@ -21,7 +21,8 @@
 
 package org.mongolink.example.domain;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
 import java.util.UUID;
 
 public class Fruit {
@@ -48,12 +49,12 @@ public class Fruit {
         this.name = name;
     }
 
-    public Date getCreationDate() {
+    public DateTime getCreationDate() {
         return creationDate;
     }
 
     private UUID id;
     private String name;
-    private Date creationDate = new Date();
+    private DateTime creationDate = new DateTime();
 
 }
