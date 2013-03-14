@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
     <artifactId>mongolink-example</artifactId>
-    <version>0.0.14</version>
+    <version>0.0.15-SNAPSHOT</version>
     <scm>
         <developerConnection>scm:git:git@github.com:MongoLink/mongolink-example.git</developerConnection>
     </scm>
