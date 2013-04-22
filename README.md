@@ -1,5 +1,6 @@
 # mongolink-example
 
+[![Build Status](https://mongolink.ci.cloudbees.com/job/mongolink-example/badge/icon)](https://mongolink.ci.cloudbees.com/job/mongolink-example/)
 
 ## Launch the example
 
