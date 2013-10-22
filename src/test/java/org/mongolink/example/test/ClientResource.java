@@ -24,15 +24,13 @@ package org.mongolink.example.test;
 import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.Restlet;
-import org.restlet.data.ChallengeResponse;
 import org.restlet.data.Method;
 import org.restlet.data.Reference;
-import org.restlet.engine.util.CookieSeries;
 import org.restlet.representation.Representation;
-import org.restlet.resource.UniformResource;
+import org.restlet.resource.Resource;
 import org.restlet.service.ConverterService;
 
-public class ClientResource extends UniformResource {
+public class ClientResource extends Resource {
 
     public ClientResource(final String uri, final Restlet application) {
         this.reference = new Reference(uri);
@@ -44,10 +42,30 @@ public class ClientResource extends UniformResource {
         return handle();
     }
 
+    @Override
+    public Representation handle() {
+        Request request = getRequest();
+        application.handle(request, getResponse());
+        return getResponse().getEntity();
+    }
+
+    private void initHandling(final Method Method) {
+        setRequest(new Request(Method, reference));
+        setResponse(new Response(getRequest()));
+    }
+
     public Representation post(final Object entity) {
         initHandling(Method.POST);
         getRequest().setEntity(getRepresentation(entity));
         return handle();
+    }
+
+    private Representation getRepresentation(final Object source) {
+        if (source == null) {
+            return null;
+        }
+        final ConverterService cs = getConverterService();
+        return cs.toRepresentation(source);
     }
 
     public Representation put(final Object entity) {
@@ -61,19 +79,6 @@ public class ClientResource extends UniformResource {
         return handle();
     }
 
-    private void initHandling(final Method Method) {
-        setRequest(new Request(Method, reference));
-        setResponse(new Response(getRequest()));
-    }
-
-    private Representation getRepresentation(final Object source) {
-        if (source == null) {
-            return null;
-        }
-        final ConverterService cs = getConverterService();
-        return cs.toRepresentation(source);
-    }
-
     @Override
     public String getAttribute(String name) {
         return null;
@@ -81,13 +86,6 @@ public class ClientResource extends UniformResource {
 
     @Override
     public void setAttribute(String name, Object value) {
-    }
-
-    @Override
-    public Representation handle() {
-        Request request = getRequest();
-        application.handle(request, getResponse());
-        return getResponse().getEntity();
     }
 
     private final Reference reference;

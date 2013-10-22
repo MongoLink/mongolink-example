@@ -34,13 +34,13 @@ public class FruitMapping extends AggregateMap<Fruit> {
 
     @Override
     public void map() {
-        id(element().getId()).natural();
-        property(element().getName());
-        property(element().getCreationDate());
+        id().onProperty(element().getId()).natural();
+        property().onField("name");
+        property().onProperty(element().getCreationDate());
         subclass(new SubclassMap<Banana>(Banana.class) {
 
             @Override
-            protected void map() {
+            public void map() {
 
             }
         });
