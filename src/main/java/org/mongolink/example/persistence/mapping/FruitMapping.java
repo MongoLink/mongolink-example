@@ -28,9 +28,6 @@ import org.mongolink.example.domain.Fruit;
 
 @SuppressWarnings("UnusedDeclaration")
 public class FruitMapping extends AggregateMap<Fruit> {
-    public FruitMapping() {
-        super();
-    }
 
     @Override
     public void map() {
