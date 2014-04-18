@@ -29,7 +29,7 @@ import org.mongolink.example.domain.Fruit;
 @SuppressWarnings("UnusedDeclaration")
 public class FruitMapping extends AggregateMap<Fruit> {
     public FruitMapping() {
-        super(Fruit.class);
+        super();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class FruitMapping extends AggregateMap<Fruit> {
         id().onProperty(element().getId()).natural();
         property().onField("name");
         property().onProperty(element().getCreationDate());
-        subclass(new SubclassMap<Banana>(Banana.class) {
+        subclass(new SubclassMap<Banana>() {
 
             @Override
             public void map() {
