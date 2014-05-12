@@ -21,10 +21,7 @@
 
 package org.mongolink.example.web.configuration;
 
-import org.mongolink.MongoSession;
-import org.mongolink.MongoSessionManager;
-import org.mongolink.Settings;
-import org.mongolink.domain.UpdateStrategies;
+import org.mongolink.*;
 import org.mongolink.domain.mapper.ContextBuilder;
 
 public class MongoConfiguration {

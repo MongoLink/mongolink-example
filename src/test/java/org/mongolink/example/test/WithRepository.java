@@ -21,12 +21,7 @@
 
 package org.mongolink.example.test;
 
-import org.junit.Rule;
 import org.junit.rules.ExternalResource;
-import org.mongolink.MongoSession;
-import org.mongolink.MongoSessionManager;
-import org.mongolink.Settings;
-import org.mongolink.domain.mapper.ContextBuilder;
 import org.mongolink.example.domain.Repositories;
 import org.mongolink.example.persistence.MongoRepositories;
 import org.mongolink.test.MongolinkRule;
