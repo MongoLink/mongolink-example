@@ -21,17 +21,14 @@
 
 package org.mongolink.example.persistence;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mongolink.example.domain.Banana;
-import org.mongolink.example.domain.Fruit;
-import org.mongolink.example.domain.Repositories;
+import org.mongolink.example.domain.*;
 import org.mongolink.example.test.WithRepository;
 
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.Assertions.*;
 
 public class FruitMongoRepositoryTest {
 
@@ -80,6 +77,7 @@ public class FruitMongoRepositoryTest {
     public void canGetAll() {
         Repositories.fruits().add(new Fruit("a fruit"));
         Repositories.fruits().add(new Fruit("another fruit"));
+        withRepository.cleanSession();
 
         List<Fruit> fruits = Repositories.fruits().all();
 

@@ -56,6 +56,7 @@ public class FruitsResourceTest extends WithRepository {
     public void canGetAll() throws IOException {
         Banana banana = new Banana("a banana");
         Repositories.fruits().add(banana);
+        withRepository.cleanSession();
 
         Representation representation = resource.get();
 
@@ -67,6 +68,7 @@ public class FruitsResourceTest extends WithRepository {
     @Test
     public void canCreate() {
         resource.post(new Form("name=a fruit"));
+        withRepository.cleanSession();
 
         assertThat(resource.getStatus()).isEqualTo(Status.SUCCESS_CREATED);
         assertThat(Repositories.fruits().all()).hasSize(1);

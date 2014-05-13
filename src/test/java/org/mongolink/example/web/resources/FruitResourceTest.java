@@ -66,6 +66,7 @@ public class FruitResourceTest extends WithRepository {
     @Test
     public void canModify() {
         resource.put(new Form("name=a fruit"));
+        withRepository.cleanSession();
 
         assertThat(resource.getStatus()).isEqualTo(Status.SUCCESS_OK);
         assertThat(Repositories.fruits().all()).hasSize(1);
