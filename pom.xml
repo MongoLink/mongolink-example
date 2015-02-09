@@ -71,7 +71,7 @@
         </dependency>
         <dependency>
             <groupId>junit</groupId>
-            <artifactId>junit-dep</artifactId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -125,8 +125,8 @@
     </licenses>
     <repositories>
         <repository>
-            <id>mongolink-snapshot</id>
-            <url>http://repository-mongolink.forge.cloudbees.com/snapshot/</url>
+            <id>arpinum-snapshots</id>
+            <url>http://archiva.arpinum.fr/repository/snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
